@@ -2,14 +2,11 @@
 
 declare -A CLI_paths
 
-CLI_paths["show interfaces eth0 counters"]='{
-"
-in_octets: 1500000
+CLI_paths["show interfaces eth0 counters"]='in_octets: 1500000
 out_octets: 1400000
 in_errors: 10
 out_errors: 2
-"
-}'
+'
 
 CLI_paths["show memory"]='{"
 makefile
