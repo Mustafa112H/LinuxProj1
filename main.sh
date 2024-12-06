@@ -21,8 +21,8 @@ CliCommPathAll=$(CallCLIPath "$gnmi_path")
 tempPath=$(echo "$CliCommPathAll" | tr ' ' '*')
 for CliCommPath in $(echo "$tempPath" | tr ',' ' '); do
     CliCommPathIn=$(echo "$CliCommPath" | tr '*' ' ')
-    cleanCLI=$(echo "$string" | sed 's/[[:space:]]*$//')
-    echo "CLI Command: $CliCommPathIn"
+    cleanCLI=$(echo "$CliCommPathIn" | sed 's/[[:space:]]*$//')
+    echo "CLI Command: $cleanCLI"
     CLI=$(CallCLI $cleanCLI)
         echo -e "CLI Output: \n$CLI"
 done 
