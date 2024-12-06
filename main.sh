@@ -3,7 +3,7 @@
 source ./mapping.sh
 source ./gNMI.sh
 source ./CLI.sh
-touch GOut.sh
+touch Gout.sh
 touch Cout.sh
 
 gnmi_path=$1
