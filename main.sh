@@ -23,7 +23,7 @@ for CliCommPath in $(echo "$tempPath" | tr ',' ' '); do
     CliCommPathIn=$(echo "$CliCommPath" | tr '*' ' ')
     echo "CLI Command: $CliCommPathIn"
     CLI=$(CallCLI "$CliCommPathIn")
-        echo -e "CLI Output: \n$CLI"
+    echo -e "CLI Output: \n$CLI"
 done 
 
 
