@@ -5,6 +5,7 @@ source ./gNMI.sh
 source ./CLI.sh
 touch GOut.sh
 touch Cout.sh
+
 gnmi_path=$1
 echo "Path: $1"
 gnmi=$(CallGNMI $gnmi_path)
