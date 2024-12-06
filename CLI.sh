@@ -31,7 +31,8 @@ CLI_paths["show ospf status"]='{
  "ospf_state": "up"
 }'
 #####requirments
-CLI_paths["show interfaces eth0 status,show interfaces eth0 mac-address,show interfaces eth0 mtu,show interfaces eth0 speed"]='{
+CLI_paths["show interfaces eth0 status]
+[show interfaces eth0 mac-address]show interfaces eth0 mtu,show interfaces eth0 speed"]='{
  "admin_status": "up",
  "oper_status": "up",
  "mac_address": "00:1C:42:2B:60:5A",

@@ -3,13 +3,15 @@
 source ./mapping.sh
 source ./gNMI.sh
 source ./CLI.sh
-
+touch GOut.sh
+touch Cout.sh
 gnmi_path=$1
 echo "Path: $1"
 gnmi=$(CallGNMI $gnmi_path)
 
 if [[ $? -eq 0 ]]; then
-    echo -e "GNMI Output: \n$gnmi"
+   echo $gnmi > Gout.sh
+    echo -e "GNMI Output: \n$gnmi" 
 else
     echo "Error Path doesnt exit"
     exit 1
@@ -26,4 +28,4 @@ for CliCommPath in $(echo "$tempPath" | tr ',' ' '); do
     echo -e "CLI Output: \n$CLI"
 done 
 
-
+###COMPARING
