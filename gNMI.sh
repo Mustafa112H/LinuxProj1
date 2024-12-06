@@ -72,5 +72,14 @@ gNMI_paths[/system/disk/state]='{
 }
 }'
 
+CallGNMI(){
+    gnmi_path=$1
+    if [[ -n "${gNMI_paths[$gnmi_path]}" ]]; then
+        echo "${gNMI_paths[$gnmi_path]}"
+        return 0
+    else
+        return 1
+    fi
+}
 
 

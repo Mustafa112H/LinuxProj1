@@ -75,4 +75,13 @@ CLI_paths["show disk space,show disk health"]='{
  "disk_health": "good"
 }
 }'
- 
+CallCLI() {
+#this function is so that i can return the command to the main.
+    cli_path=$1
+    if [[ -n "${CLI_paths[$cli_path]}" ]]; then
+        echo "${CLI_paths[$cli_path]}"
+    else
+        echo "Error Command not found!"
+        return 1
+    fi
+}
