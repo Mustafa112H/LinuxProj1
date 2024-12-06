@@ -15,15 +15,15 @@ GnmiPathToCLI["/ospf/areas/area[id=0.0.0.0]/state"]="show ospf area 0.0.0.0,show
 GnmiPathToCLI["/system/disk/state"]="show disk space,show disk health"
 
 CallCLI() {
-#this function is so that i can return the command to the main
+#this function is so that i can return the command to the main.
     local gnmi_path=$1
-    if [[ -n "${GNMI_CLI_MAPPING[$gnmi_path]}" ]]; then
-        echo "${GNMI_CLI_MAPPING[$gnmi_path]}"
+    if [[ -n "${GnmiPathToCLI[$gnmi_path]}" ]]; then
+        echo "${GnmiPathToCLI[$gnmi_path]}"
     else
-        echo "No CLI commands found for the gNMI path: $gnmi_path" >&2
+        echo "Error Command not found!"
         return 1
     fi
 }
-#returns the wanted cli command so we can run it on another shell script
-export GnmiPathToCLI
+
+
 
