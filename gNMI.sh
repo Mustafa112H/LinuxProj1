@@ -69,6 +69,31 @@ gNMI_paths[/system/disk/state]='{
  "disk_health": "good"
 }'
 
+gNMI_paths[/interfaces/interface[name=eth0]/state/oper-status]='{
+LINK_UP
+}'
+
+gNMI_paths[/interfaces/interface[name=eth0]/state/admin-status]='{
+ACTIVE
+}'
+
+gNMI_paths[/interfaces/interface[name=eth0]/state/speed]='{
+400
+}'
+
+gNMI_paths[/system/memory/state/used]='{
+361296 bytes
+}'
+
+gNMI_paths[/system/cpu/state/utilization]='{
+31
+}'
+
+gNMI_paths[/system/cpu/state/utilization]='{
+43
+}'
+
+
 CallGNMI(){
     gnmi_path=$1
     if [[ -n "${gNMI_paths[$gnmi_path]}" ]]; then
@@ -78,5 +103,3 @@ CallGNMI(){
         return 1
     fi
 }
-
-

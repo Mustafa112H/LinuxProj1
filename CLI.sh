@@ -36,7 +36,6 @@ CLI_paths["show interfaces eth0 speed"]='speed: 1000
 '
 ##
 
-
 ##
 CLI_paths["show bgp neighbors 10.0.0.1"]='peer_as: 65001
 connection_state: Established
@@ -81,6 +80,26 @@ available_space: 524000
 
 CLI_paths["show disk health"]='disk_health: good
 '
+##
+
+CLI_paths["show interfaces eth0 status"]='LinkUp
+'
+
+CLI_paths["show interfaces eth0 admin-status"]='Active
+'
+
+CLI_paths["show interfaces eth0 speed"]='400G
+'
+
+CLI_paths["show memory used"]='352.97 KB
+'
+
+CLI_paths["show cpu utilization"]='31.0%
+'
+
+CLI_paths["show storage usage"]='43.00
+'
+##
 
 
 CallCLI() {
