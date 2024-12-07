@@ -82,13 +82,13 @@ CLI_paths["show disk health"]='disk_health: good
 '
 ##
 
-CLI_paths["show interfaces eth0 status"]='LinkUp
+CLI_paths["show interface eth0 status"]='LinkUp
 '
 
 CLI_paths["show interfaces eth0 admin-status"]='Active
 '
 
-CLI_paths["show interfaces eth0 speed"]='400G
+CLI_paths["show interface eth0 speed"]='400G
 '
 
 CLI_paths["show memory used"]='352.97 KB
