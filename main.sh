@@ -103,6 +103,29 @@ if [ $? -eq 0 ]; then
     exit 0
 fi
 
+file="comp.txt"
+first_line=$(sed -n '1p' "$file")
+
+
+# Check if the first line matches the `cXc` pattern
+if [[ "$first_line" == ?c? ]]; then
+    # Extract the key before `:` from the second line
+    key=$(sed -n '2p' "$file" | cut -d':' -f1 | sed 's/< //')
+    value_gnmi=$(sed -n '2p' "$file" | cut -d':' -f2)
+    value_cli=$(sed -n '4p' "$file" | cut -d':' -f2)
+
+    echo -e "\n\n$key differs, showing \"$value_gnmi\" in gNMI and \"$value_cli\" in CLI output."
+    exit 0
+fi
+
+if [[ $first_line =~ ^[0-9]+d[0-9]+$ ]]; then
+    # Extract the key before : from the second line
+    key=$(sed -n '2p' "$file" | cut -d':' -f1 | sed 's/< //')
+
+    # Check the diff output and construct the message
+    echo "\n\n$key is present in the gNMI output but missing in the CLI output."
+    exit 0
+fi 
 # for lineG in $(<new_gnmi.txt); do
 #     for lineC in $(<cli.txt); do
 #     echo "$line"  

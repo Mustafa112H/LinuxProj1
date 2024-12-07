@@ -1,6 +1,2 @@
-1,2c1,2
-< ospfarea:0.0.0.0
-< ospfstate:up
----
-> ospfarea:"0.0.0.0"
-> ospfstate:"down"
+2d1
+< idlepercentage:35
