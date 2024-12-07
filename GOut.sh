@@ -1,1 +1,1 @@
-{ "cpu_usage": 65, "idle_percentage": 35 }
+{ "ospf_area": "0.0.0.0", "ospf_state": "up" }

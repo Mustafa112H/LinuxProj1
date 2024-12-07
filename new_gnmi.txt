@@ -1,2 +1,2 @@
-cpuusage:65
-idlepercentage:35
+ospfarea:0.0.0.0
+ospfstate:up

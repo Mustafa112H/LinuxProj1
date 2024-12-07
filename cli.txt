@@ -1,1 +1,2 @@
-cpuusage:65
+ospfarea:"0.0.0.0"
+ospfstate:"down"
