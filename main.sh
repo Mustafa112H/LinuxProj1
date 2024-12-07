@@ -47,7 +47,7 @@ echo "$CLIFULL" > cli.txt
 sed -i '/\[/d' new_gnmi.txt
 sed -i '/^$/d' new_gnmi.txt
 sed -i '/^$/d' cli.txt
-echo -e "\n\n\n\n The CLI is: \n$(cat cli.txt) \n\n\n The GNMI: \n$(cat new_gnmi.txt)"
+##echo -e "\n\n\n\n The CLI is: \n$(cat cli.txt) \n\n\n The GNMI: \n$(cat new_gnmi.txt)"
 
 diff new_gnmi.txt cli.txt > comp.txt
 
