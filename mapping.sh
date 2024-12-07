@@ -13,6 +13,13 @@ GnmiPathToCLI["/bgp/neighbors/neighbor[neighbor_address=10.0.0.1]/state"]="show 
 GnmiPathToCLI["/system/cpu/state"]="show cpu usage,show cpu user,show cpu system,show cpu idle"
 GnmiPathToCLI["/ospf/areas/area[id=0.0.0.0]/state"]="show ospf area 0.0.0.0,show ospf neighbors"
 GnmiPathToCLI["/system/disk/state"]="show disk space,show disk health"
+GnmiPathToCLI["/interfaces/interface[name=eth0]/state/oper-status"]="show interfaces eth0 status"
+GnmiPathToCLI["/interfaces/interface[name=eth0]/state/admin-status"]="show interfaces eth0 admin-status"
+GnmiPathToCLI["/interfaces/interface[name=eth0]/state/speed"]="show interfaces eth0 speed"
+GnmiPathToCLI["/system/disk/state"]="show memory used"
+GnmiPathToCLI["/system/cpu/state/utilization"]="show cpu utilization"
+GnmiPathToCLI["/system/storage/state/used"]="show storage usage"
+
 CallCLIPath() {
 #this function is so that i can return the command to the main.
     gnmi_path=$1

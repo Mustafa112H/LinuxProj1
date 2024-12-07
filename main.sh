@@ -1,54 +1,8 @@
-# #!/bin/bash
-
-# source ./mapping.sh
-# source ./gNMI.sh
-# source ./CLI.sh
-# touch GOut.sh
-# touch Cout.sh
-
-# gnmi_path=$1
-# echo "Path: $1"
-# gnmi=$(CallGNMI $gnmi_path)
-
-# if [[ $? -eq 0 ]]; then
-#    echo $gnmi > Gout.sh
-#     echo -e "GNMI Output: \n$gnmi" 
-# else
-#     echo "Error Path doesnt exit"
-#     exit 1
-# fi
-
-# CliCommPathAll=$(CallCLIPath "$gnmi_path")
-# ## here we need to add a loop to parse at the , take the command put it in the folder 
-# # Split the comma-separated string into an array
-# tempPath=$(echo "$CliCommPathAll" | tr ' ' '*')
-# for CliCommPath in $(echo "$tempPath" | tr ',' ' '); do
-#     CliCommPathIn=$(echo "$CliCommPath" | tr '*' ' ')
-#     echo "CLI Command: $CliCommPathIn"
-#     CLI=$(CallCLI "$CliCommPathIn")
-#     echo -e "CLI Output: \n$CLI"
-# done 
-
-# ###COMPARING
-
-
-
-
-
-
-
-
-
-
-
-
 #!/bin/bash
 
 source ./mapping.sh
 source ./gNMI.sh
 source ./CLI.sh
-touch Gout.sh
-touch Cout.sh
 touch new_gnmi.txt
 touch cli.txt
 
@@ -82,13 +36,13 @@ for CliCommPath in $(echo "$tempPath" | tr ',' ' '); do
     echo -e "CLI Output: \n$CLI"
     CLIFULL+="$CLI,"
 done
-
-
-
-
+if [ $counter -gt 1 ];then 
+echo -e "\n\nEach CLI command provides a subset of the values in the gNMI output,
+allowing complete coverage for a thorough comparison."
+fi
 ##COMPARING
-newGnmi=$(echo "$gnmi" | tr -d '"{}]_ '|tr 'A-Z' 'a-z'| tr -s ',' '\n')
-CLIFULL=$(echo "$CLIFULL" | tr -d '_" '|tr 'A-Z' 'a-z'| tr -s ',' '\n')
+newGnmi=$(echo "$gnmi" | tr -d '"{}] '|tr -s ',' '\n')
+CLIFULL=$(echo "$CLIFULL" | tr -d '" '| tr -s ',' '\n')
 echo "$newGnmi" > new_gnmi.txt
 echo "$CLIFULL" > cli.txt
 sed -i '/\[/d' new_gnmi.txt
@@ -107,9 +61,7 @@ file="comp.txt"
 first_line=$(sed -n '1p' "$file")
 
 
-# Check if the first line matches the `cXc` pattern
 if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
-    # Extract the key before `:` from the second line
     key=$(sed -n '2p' "$file" | cut -d':' -f1 | sed 's/< //')
     value_gnmi=$(sed -n '2p' "$file" | cut -d':' -f2)
     value_cli=$(sed -n '4p' "$file" | cut -d':' -f2)

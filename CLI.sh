@@ -81,7 +81,7 @@ available_space: 524000
 
 CLI_paths["show disk health"]='disk_health: good
 '
-##
+
 
 CallCLI() {
 #this function is so that i can return the command to the main.
