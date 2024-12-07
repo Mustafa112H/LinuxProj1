@@ -53,7 +53,6 @@ gNMI_paths[/system/cpu/state]='{
 }'
 
 gNMI_paths[/ospf/areas/area[id=0.0.0.0]/state]='{
-{
  "area_id": "0.0.0.0",
  "active_interfaces": 4,
  "lsdb_entries": 200,
@@ -64,12 +63,10 @@ gNMI_paths[/ospf/areas/area[id=0.0.0.0]/state]='{
 }'
 
 gNMI_paths[/system/disk/state]='{
-{
  "total_space": 1024000,
  "used_space": 500000,
  "available_space": 524000,
  "disk_health": "good"
-}
 }'
 
 CallGNMI(){

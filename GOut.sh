@@ -1,1 +1,1 @@
-{ "in_octets": 1500000, "out_octets": 1400000, "in_errors": 10, "out_errors": 2 }
+{ "area_id": "0.0.0.0", "active_interfaces": 4, "lsdb_entries": 200, "adjacencies": [ {"neighbor_id": "1.1.1.1", "state": "full"}, {"neighbor_id": "2.2.2.2", "state": "full"} ] }
