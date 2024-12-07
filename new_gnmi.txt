@@ -1,2 +1,4 @@
-cpuusage:65
-idlepercentage:35
+cpuusage:75
+userusage:45
+systemusage:20
+idlepercentage:25

@@ -108,7 +108,7 @@ first_line=$(sed -n '1p' "$file")
 
 
 # Check if the first line matches the `cXc` pattern
-if [[ "$first_line" == ?c? ]]; then
+if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
     # Extract the key before `:` from the second line
     key=$(sed -n '2p' "$file" | cut -d':' -f1 | sed 's/< //')
     value_gnmi=$(sed -n '2p' "$file" | cut -d':' -f2)
@@ -122,8 +122,8 @@ if [[ $first_line =~ ^[0-9]+d[0-9]+$ ]]; then
     # Extract the key before : from the second line
     key=$(sed -n '2p' "$file" | cut -d':' -f1 | sed 's/< //')
 
-    # Check the diff output and construct the message
-    echo "\n\n$key is present in the gNMI output but missing in the CLI output."
+ 
+    echo -e "\n\n$key is present in the gNMI output but missing in the CLI output."
     exit 0
 fi 
 # for lineG in $(<new_gnmi.txt); do
