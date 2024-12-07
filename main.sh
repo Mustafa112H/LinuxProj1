@@ -1,5 +1,6 @@
 #!/bin/bash
-
+###Mohammad Omar 122
+###Heba Mustafa 1221916
 source ./mapping.sh
 source ./gNMI.sh
 source ./CLI.sh
@@ -78,7 +79,3 @@ if [[ $first_line =~ ^[0-9]+d[0-9]+$ ]]; then
     echo -e "\n\n$key is present in the gNMI output but missing in the CLI output."
     exit 0
 fi 
-# for lineG in $(<new_gnmi.txt); do
-#     for lineC in $(<cli.txt); do
-#     echo "$line"  
-# done
