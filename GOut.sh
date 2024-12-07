@@ -1,1 +1,1 @@
-{ "total_space": 1024000, "used_space": 500000, "available_space": 524000, "disk_health": "good" }
+{ "in_octets": 1500000, "out_octets": 1400000, "in_errors": 10, "out_errors": 2 }

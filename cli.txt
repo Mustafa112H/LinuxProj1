@@ -1,4 +1,4 @@
-total_space:1024000
-used_space:500000
-available_space:524000
-disk_health:good
+inoctets:1500000
+outoctets:1400000
+inerrors:10
+outerrors:2

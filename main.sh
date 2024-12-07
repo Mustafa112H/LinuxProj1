@@ -88,7 +88,7 @@ done
 
 ##COMPARING
 newGnmi=$(echo "$gnmi" | tr -d '"{}]_ '|tr 'A-Z' 'a-z'| tr -s ',' '\n')
-CLIFULL=$(echo "$CLIFULL" | tr -d ' '|tr 'A-Z' 'a-z'| tr -s ',' '\n')
+CLIFULL=$(echo "$CLIFULL" | tr -d '_ '|tr 'A-Z' 'a-z'| tr -s ',' '\n')
 echo "$newGnmi" > new_gnmi.txt
 echo "$CLIFULL" > cli.txt
 sed -i '/\[/d' new_gnmi.txt
