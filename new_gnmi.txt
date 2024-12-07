@@ -1,4 +1,2 @@
-inoctets:1500000
-outoctets:1400000
-inerrors:10
-outerrors:2
+cpuusage:65
+idlepercentage:35

@@ -1,1 +1,1 @@
-{ "in_octets": 1500000, "out_octets": 1400000, "in_errors": 10, "out_errors": 2 }
+{ "cpu_usage": 65, "idle_percentage": 35 }
