@@ -16,7 +16,7 @@ GnmiPathToCLI["/system/disk/state"]="show disk space,show disk health"
 GnmiPathToCLI["/interfaces/interface[name=eth0]/state/oper-status"]="show interface eth0 status"
 GnmiPathToCLI["/interfaces/interface[name=eth0]/state/admin-status"]="show interfaces eth0 admin-status"
 GnmiPathToCLI["/interfaces/interface[name=eth0]/state/speed"]="show interface eth0 speed"
-GnmiPathToCLI["/system/disk/state"]="show memory used"
+GnmiPathToCLI["/system/memory/state/used"]="show memory used"
 GnmiPathToCLI["/system/cpu/state/utilization"]="show cpu utilization"
 GnmiPathToCLI["/system/storage/state/used"]="show storage usage"
 
