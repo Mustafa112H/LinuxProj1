@@ -89,7 +89,7 @@ gNMI_paths[/system/cpu/state/utilization]='{
 31
 }'
 
-gNMI_paths[/system/cpu/state/utilization]='{
+gNMI_paths[/system/storage/state/used]='{
 43
 }'
 
