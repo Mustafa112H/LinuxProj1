@@ -80,16 +80,30 @@ for CliCommPath in $(echo "$tempPath" | tr ',' ' '); do
     echo -e "\nCommand $counter: $CliCommPathIn"
     CLI=$(CallCLI "$CliCommPathIn")
     echo -e "CLI Output: \n$CLI"
-    CLIFULL+="$CLI\n"
+    CLIFULL+="$CLI,"
 done
 
 
 
 
 ##COMPARING
-newGnmi=$(echo "$gnmi" | tr -d '"' | tr -d '}' | tr -s ',' '\n')
-
+newGnmi=$(echo "$gnmi" | tr -d '"{}]_ '|tr 'A-Z' 'a-z'| tr -s ',' '\n')
+CLIFULL=$(echo "$CLIFULL" | tr -d ' '|tr 'A-Z' 'a-z'| tr -s ',' '\n')
 echo "$newGnmi" > new_gnmi.txt
-echo "$CLI" > cli.txt
+echo "$CLIFULL" > cli.txt
+sed -i '/\[/d' new_gnmi.txt
+sed -i '/^$/d' new_gnmi.txt
+echo -e "\n\n\n\n The CLI is: \n$(cat cli.txt) \n\n\n The GNMI: \n$(cat new_gnmi.txt)"
 
-echo -e  "\n\n\n\n The CLI is: \n$CLIFULL \n\n\n The GNMI: \n $newGnmi" 
+diff new_gnmi.txt cli.txt > comp.txt
+
+# Check the exit status of diff
+if [ $? -eq 0 ]; then
+    echo -e "\n\nAll values match; no discrepancies."
+    exit 0
+fi
+
+# for lineG in $(<new_gnmi.txt); do
+#     for lineC in $(<cli.txt); do
+#     echo "$line"  
+# done

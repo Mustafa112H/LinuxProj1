@@ -1,2 +1,4 @@
-neighbor_id: 1.1.1.1, state: full
-neighbor_id: 2.2.2.2, state: full
+total_space:1024000
+used_space:500000
+available_space:524000
+disk_health:good
