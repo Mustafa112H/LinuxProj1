@@ -1,1 +1,4 @@
-361296bytes
+peer_as:65001
+connection_state:Established
+received_prefix_count:120
+sent_prefix_count:95

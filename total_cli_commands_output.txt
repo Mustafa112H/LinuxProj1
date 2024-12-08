@@ -1,2 +1,0 @@
-neighbor_id: 1.1.1.1, state: full
-neighbor_id: 2.2.2.2, state: full

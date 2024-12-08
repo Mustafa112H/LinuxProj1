@@ -14,7 +14,6 @@ echo "Path: $1"
 gnmi=$(CallGNMI $gnmi_path)
 
 if [[ $? -eq 0 ]]; then
-   echo $gnmi > Gout.sh
     echo -e "GNMI Output: \n$gnmi"
 else
     echo "Error Path doesnt exit"
@@ -82,25 +81,25 @@ if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
     value_cli=$(sed -n '4p' "$file" | cut -d':' -f2)
 
     if [[ $value_cli == *"GB"* ]];then
-        echo -e "\n\nConverting to Match......"
+        echo -e "\n\nUnit Conversion Handling......"
         value_cli=$(echo "$value_cli" | tr -d " ><GB")
         value_gnmi=$(echo "$value_gnmi" | tr -d " ><")
-        value_cli=$(( value_cli * 1000000000 * 1073741824))
+        value_cli=$(awk "BEGIN {print $value_cli  1000000000 * 1073741824}")
         value_cli=$value_cli"bytes"
         key="Values" 
     fi
     if [[ $value_cli == *"MB"* ]];then
-        echo -e "\n\nConverting to Match......"
+        echo -e "\n\nUnit Conversion Handling......"
         value_cli=$(echo "$value_cli" | tr -d " ><MB")
         value_gnmi=$(echo "$value_gnmi" | tr -d " ><")
-        value_cli=$(( value_cli * 1000000 * 1048576 ))
+        value_cli=$(awk "BEGIN {print $value_cli  1000000 * 1048576 }")
         value_cli=$value_cli"bytes"
         key="Values" 
     fi
   if [[ $value_cli == *"KB"* ]];then
-        echo -e "\n\nConverting to Match......"
+        echo -e "\n\nUnit Conversion Handling......"
         value_cli=$(echo "$value_cli" | tr -d "><KB")
-        value_gnmi=$(echo "$value_gnmi" | tr -d "><")
+        value_gnmi=$(echo "$value_gnmi" | tr -d " ><")
         value_cli=$(awk "BEGIN {print $value_cli * 1024}")
         value_cli=$value_cli"bytes"
         key="Values" 
