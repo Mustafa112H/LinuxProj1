@@ -100,8 +100,16 @@ gNMI_paths[/testing]='{
 "not": hey 
 "Third": ._.
 }'
+gNMI_paths[/system/storage/state/used]='{
+43
+}'
+gNMI_paths[/test1]='{
+"first": 43
+"second": 75
+"third": HEY
+}'
 
-
+##to return the output to the main 
 CallGNMI(){
     gnmi_path=$1
     if [[ -n "${gNMI_paths[$gnmi_path]}" ]]; then

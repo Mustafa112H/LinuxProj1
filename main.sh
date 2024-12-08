@@ -12,6 +12,21 @@ CLIFULL=""
 counter=0
 ##this will be used to take the path from terminal 
 gnmi_path=$1
+##function used when comparing
+##This function will handle the next difference by removing the ones already compared
+CallHandleNext(){
+sed -i '2d' "comp.txt"
+line_number=$(sed -n '/---/=' "comp.txt")
+line_number=$((line_number + 1))    
+sed -i "${line_number}d" "comp.txt" 
+second=$(sed -n '2p' "comp.txt")
+line_number=$(sed -n '/---/=' "comp.txt")
+line_number=$((line_number + 1))
+afterPattern=$(sed -n "${line_number}p" "comp.txt")
+}
+
+
+
 
 echo "Path: $1"
 ##calls the function from the gnmi.sh file and takes the gnmi command and puts it in this var
@@ -78,89 +93,59 @@ if [ $newGnmiNorm == $CLIFULLNorm ]; then
     exit 0
 fi
  
-file="comp.txt"
 ##take the first line in comp which will give us a key to then difference 
-first_line=$(sed -n '1p' "$file")
+first_line=$(sed -n '1p' "comp.txt")
 #this will give us the line number of the line containing ---
-line_number=$(sed -n '/---/=' "$file")
+line_number=$(sed -n '/---/=' "comp.txt")
 ##takes the first problem from the cli.txt
 line_number=$((line_number + 1))
 ##takes first problem in the gnmi.txt (problem: unmatched output)
-second=$(sed -n '2p' "$file")
+second=$(sed -n '2p' "comp.txt")
 ##line after ---
-afterPattern=$(sed -n "${line_number}p" "$file") 
+afterPattern=$(sed -n "${line_number}p" "comp.txt") 
 ##while unmatched values still exist
 while [[ (-n $second && $second != "---") || $second == "---" && -n "$afterPattern" ]]; do 
     #this means there exists something in cli.txt that doesnt exist in gnmi
     if [[ $second == "---" ]]; then
     #take the key and say it doesnt exist then go to the next case by reinitializing the values and removing the
     ##lines that we have already compared
-        key2=$(sed -n "${line_number}p" "$file" | cut -d':' -f1 | tr -d " ><")
+        key2=$(sed -n "${line_number}p" "comp.txt" | cut -d':' -f1 | tr -d " ><")
         echo -e "\n\n$key2 is present in the CLI output but missing in the gNMI output."
-        sed -i '2d' $file
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1)) 
-        sed -i "${line_number}d" "$file" 
-        second=$(sed -n '2p' "$file")
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1))
-        afterPattern=$(sed -n "${line_number}p" "$file")
+        CallHandleNext
         continue
     fi
 
     ##if the start of the file contains d that means we have lines that exist in gnmi but dont in cli
-    if [[ $first_line =~ [0-9]+d[0-9]+ || -z $afterPattern ]]; then
+    if [[ $first_line == *d* || -z $afterPattern ]]; then
         # Extract the key before : from the second line
-        key=$(sed -n '2p' "$file" | cut -d':' -f1 | tr -d " ><")
+        key=$(sed -n '2p' "comp.txt" | cut -d':' -f1 | tr -d " ><")
         echo -e "\n\n$key is present in the gNMI output but missing in the CLI output."
-        sed -i '2d' $file
-        ##reinitialize to see next difference 
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1)) 
-        sed -i "${line_number}d" "$file" 
-        second=$(sed -n '2p' "$file")
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1))
-        afterPattern=$(sed -n "${line_number}p" "$file")
+        CallHandleNext
         continue
     fi 
     ##if the start of the file conatins a then exists in cli and not in gnmi
-    if [[ $first_line =~ [0-9]+a[0-9]+ ]]; then
+    if [[ $first_line == *a* ]]; then
         # Extract the key before : from the second line
-        key=$(sed -n '2p' "$file" | cut -d':' -f1 | tr -d " ><")
+        key=$(sed -n '2p' "comp.txt" | cut -d':' -f1 | tr -d " ><")
         echo -e "\n\n$key is present in the CLI output but missing in the gNMI output."
-        sed -i '2d' $file
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1))
-        sed -i "${line_number}d" $file 
-        second=$(sed -n '2p' "$file")
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1))
-        afterPattern=$(sed -n "${line_number}p" "$file")
+        CallHandleNext
         continue
     fi 
     ##changes in the lines is formatted ad number c number 
-    if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
+    if [[ "$first_line" == *c* ]]; then
     #take the keys of the lines facing each of other and if they dont equal each other than we say key doesnt equal key 
         if [[ "$second" == *":"* ]]; then
-            key=$(sed -n '2p' "$file" | cut -d':' -f1 |  tr -d " ><")
-            key2=$(sed -n "${line_number}p" "$file" | cut -d':' -f1 | tr -d " ><")
+            key=$(sed -n '2p' "comp.txt" | cut -d':' -f1 |  tr -d " ><")
+            key2=$(sed -n "${line_number}p" "comp.txt" | cut -d':' -f1 | tr -d " ><")
             if [[ $key != $key2 ]]; then
                 echo -e "\n\n\"$key\" is present in Gnmi but is called \"$key2\" in Cli"
-                sed -i '2d' $file
-                line_number=$(sed -n '/---/=' "$file")
-                line_number=$((line_number + 1))
-                sed -i "${line_number}d" $file 
-                second=$(sed -n '2p' "$file")
-                line_number=$(sed -n '/---/=' "$file")
-                line_number=$((line_number + 1))
-                afterPattern=$(sed -n "${line_number}p" "$file")    
+                CallHandleNext
                 continue 
             fi 
         fi
         ##else take the values so we can compare the values of the keys 
-        value_gnmi=$(sed -n '2p' "$file" | cut -d':' -f2|tr -d "< >" ) 
-        value_cli=$(sed -n "${line_number}p" "$file" | cut -d':' -f2 |tr -d "< >" )
+        value_gnmi=$(sed -n '2p' "comp.txt" | cut -d':' -f2|tr -d "< >" ) 
+        value_cli=$(sed -n "${line_number}p" "comp.txt" | cut -d':' -f2 |tr -d "< >" )
         ##start unit comparisons and fix the values
         ##if B then turn it into bytes
         if [[ $value_cli == *"GB"* ]];then
@@ -218,15 +203,8 @@ while [[ (-n $second && $second != "---") || $second == "---" && -n "$afterPatte
         ##check if they equal each other after converting
         if [[ "$value_cli" == "$value_gnmi" ]];then
             echo -e "\n\n Successfully Matched after Conversion" 
-            sed -i '2d' $file
-            line_number=$(sed -n '/---/=' "$file")
-            line_number=$((line_number + 1))
-            sed -i "${line_number}d" $file 
-            second=$(sed -n '2p' "$file")
-            line_number=$(sed -n '/---/=' "$file")
-            line_number=$((line_number + 1))
-            afterPattern=$(sed -n "${line_number}p" "$file")
-            continue
+            CallHandleNext
+            continue 
         fi
         
         ##converting (not bytes) normal conversions 
@@ -292,15 +270,8 @@ while [[ (-n $second && $second != "---") || $second == "---" && -n "$afterPatte
 
          ###compare and see    
         if [[ "$value_cli" == "$value_gnmi" ]];then
-            echo -e "\n\n Successfully Matched after Conversion" 
-            sed -i '2d' $file
-            line_number=$(sed -n '/---/=' "$file")
-            line_number=$((line_number + 1))
-            sed -i "${line_number}d" $file 
-            second=$(sed -n '2p' "$file")
-            line_number=$(sed -n '/---/=' "$file")
-            line_number=$((line_number + 1))
-            afterPattern=$(sed -n "${line_number}p" "$file")
+            echo -e "\n\nSuccessfully Matched after Conversion for $key" 
+            CallHandleNext
             continue
         fi
         ##Percision Handling
@@ -321,34 +292,30 @@ while [[ (-n $second && $second != "---") || $second == "---" && -n "$afterPatte
             if [[ $decimal_gnmi -gt 4 ]]; then
                 value_gnmi=$(( value_gnmi + 1 ))
             fi 
-                echo -e "Percision Handling.........." 
+                echo -e "\n\nPercision Handling.........." 
         fi
 
         if [[ "$value_cli" == "$value_gnmi" ]];then
-            echo -e "\n\nSuccessfully matched after adjusting percision"
-            sed -i '2d' $file
-            line_number=$(sed -n '/---/=' "$file")
-            line_number=$((line_number + 1))
-            sed -i "${line_number}d" $file
-            second=$(sed -n '2p' "$file") 
-            line_number=$(sed -n '/---/=' "$file")
-            line_number=$((line_number + 1))
-            afterPattern=$(sed -n "${line_number}p" "$file")
+            echo -e "\n\nSuccessfully matched after adjusting percision for key: $key"
+            CallHandleNext
             continue
+        fi
+        newGnmiNorm=$(echo "$value_cli" | tr -s [A-Z] [a-z] | tr -d "_\n")
+        CLIFULLNorm=$(echo "$value_gnmi" | tr -s [A-Z] [a-z] | tr -d "_\n") 
+        ##if match after normalization then stop 
+        if [ $newGnmiNorm == $CLIFULLNorm ]; then
+            echo -e "\n\nMatch After Normalization for key: $key"
+            CallHandleNext
+            continue
+            
         fi
         ##lastly if the values differn even after the handling that means they are different 
         echo -e "\n\n$key differs, showing \"$value_gnmi\" in gNMI and \"$value_cli\" in CLI output."
-
-        sed -i '2d' $file
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1))    
-        sed -i "${line_number}d" $file 
-        second=$(sed -n '2p' "$file")
-        line_number=$(sed -n '/---/=' "$file")
-        line_number=$((line_number + 1))
-        afterPattern=$(sed -n "${line_number}p" "$file")
+        CallHandleNext
         continue
     fi
 done
-
+rm comp.txt
+rm new_gnmi.txt
+rm cli.txt
 

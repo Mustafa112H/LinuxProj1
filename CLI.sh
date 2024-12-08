@@ -106,7 +106,10 @@ next:CLi
 hey:sss
 '
 ##
-
+CLI_paths["test1"]='first:43.33
+second:75.56
+third: hey
+'
 
 CallCLI() {
 #this function is so that i can return the command to the main.
