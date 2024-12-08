@@ -1,6 +1,1 @@
-in:5
-out:10
-status:available
-next:gnmi
-not:hey
-Third:._.
+361296bytes
