@@ -293,6 +293,9 @@ while [[ (-n $second && $second != "---") || $second == "---" && -n "$afterPatte
                 value_gnmi=$(( value_gnmi + 1 ))
             fi 
                 echo -e "\n\nPercision Handling.........." 
+            if [[ "$second" != *":"* ]]; then
+                key="Values"
+            fi  
         fi
 
         if [[ "$value_cli" == "$value_gnmi" ]];then
