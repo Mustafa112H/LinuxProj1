@@ -19,6 +19,7 @@ GnmiPathToCLI["/interfaces/interface[name=eth0]/state/speed"]="show interface et
 GnmiPathToCLI["/system/memory/state/used"]="show memory used"
 GnmiPathToCLI["/system/cpu/state/utilization"]="show cpu utilization"
 GnmiPathToCLI["/system/storage/state/used"]="show storage usage"
+GnmiPathToCLI["/testing"]="test"
 
 CallCLIPath() {
 #this function is so that i can return the command to the main.

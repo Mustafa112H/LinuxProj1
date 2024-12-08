@@ -92,6 +92,14 @@ gNMI_paths[/system/cpu/state/utilization]='{
 gNMI_paths[/system/storage/state/used]='{
 43
 }'
+gNMI_paths[/testing]='{
+"in":5
+"out":10
+"status":available
+"next": gnmi
+"not": hey 
+"Third": ._.
+}'
 
 
 CallGNMI(){

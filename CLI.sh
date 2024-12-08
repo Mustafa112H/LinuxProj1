@@ -99,6 +99,12 @@ CLI_paths["show cpu utilization"]='31.0%
 
 CLI_paths["show storage usage"]='43.53
 '
+CLI_paths["test"]='in:5
+out:10
+status:available 
+next:CLi
+hey:sss
+'
 ##
 
 
