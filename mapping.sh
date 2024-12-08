@@ -21,6 +21,7 @@ GnmiPathToCLI["/system/cpu/state/utilization"]="show cpu utilization"
 GnmiPathToCLI["/system/storage/state/used"]="show storage usage"
 GnmiPathToCLI["/testing"]="test"
 GnmiPathToCLI["/test1"]="test1"
+GnmiPathToCLI["/test2"]="test2"
 CallCLIPath() {
 #this function is so that i can return the command to the main.
     gnmi_path=$1

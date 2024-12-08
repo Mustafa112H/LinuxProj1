@@ -100,8 +100,8 @@ gNMI_paths[/testing]='{
 "not": hey 
 "Third": ._.
 }'
-gNMI_paths[/system/storage/state/used]='{
-43
+gNMI_paths[/test2]='{
+"hey":hello
 }'
 gNMI_paths[/test1]='{
 "first": 43

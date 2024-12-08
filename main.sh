@@ -78,12 +78,12 @@ sed -i '/^$/d' cli.txt
 ##echo -e "\n\n\n\n The CLI is: \n$(cat cli.txt) \n\n\n The GNMI: \n$(cat new_gnmi.txt)"
 ##this will check the difference between the two files and return the difference on a file called comp.txt
 diff new_gnmi.txt cli.txt > comp.txt
-
 #if match then print match and stop 
 if [ $? -eq 0 ]; then
     echo -e "\n\nAll values match; no discrepancies."
     exit 0
 fi
+
 ##Normalize turn the upcase to lower and remove __ and see if they match
 newGnmiNorm=$(echo "$newGnmi" | tr -s [A-Z] [a-z] | tr -d "_\n")
 CLIFULLNorm=$(echo "$CLIFULL" | tr -s [A-Z] [a-z] | tr -d "_\n") 

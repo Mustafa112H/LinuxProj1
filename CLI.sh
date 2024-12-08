@@ -110,6 +110,9 @@ CLI_paths["test1"]='first:43.33
 second:75.56
 third: hey
 '
+CLI_paths["test2"]='hey: hello
+World:-_-
+'
 
 CallCLI() {
 #this function is so that i can return the command to the main.
