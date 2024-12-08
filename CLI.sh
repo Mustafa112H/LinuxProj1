@@ -97,7 +97,7 @@ CLI_paths["show memory used"]='352.97 KB
 CLI_paths["show cpu utilization"]='31.0%
 '
 
-CLI_paths["show storage usage"]='43.00
+CLI_paths["show storage usage"]='43.53
 '
 ##
 

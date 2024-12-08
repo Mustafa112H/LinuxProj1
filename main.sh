@@ -33,6 +33,7 @@ for CliCommPath in $(echo "$tempPath" | tr ',' ' '); do
     echo -e "CLI Output: \n$CLI"
     CLIFULL+="$CLI,"
 done
+
 if [ $counter -gt 1 ];then 
     echo -e "\n\nEach CLI command provides a subset of the values in the gNMI output,
     allowing complete coverage for a thorough comparison."
@@ -77,8 +78,8 @@ if [[ $first_line =~ ^[0-9]+d[0-9]+$ ]]; then
 fi 
 if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
     key=$(sed -n '2p' "$file" | cut -d':' -f1 | sed 's/< //')
-    value_gnmi=$(sed -n '2p' "$file" | cut -d':' -f2) 
-    value_cli=$(sed -n '4p' "$file" | cut -d':' -f2)
+    value_gnmi=$(sed -n '2p' "$file" | cut -d':' -f2|tr -d "< >" ) 
+    value_cli=$(sed -n '4p' "$file" | cut -d':' -f2 |tr -d "< >" )
 
     if [[ $value_cli == *"GB"* ]];then
         echo -e "\n\nUnit Conversion Handling......"
@@ -96,7 +97,7 @@ if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
         value_cli=$value_cli"bytes"
         key="Values" 
     fi
-  if [[ $value_cli == *"KB"* ]];then
+    if [[ $value_cli == *"KB"* ]];then
         echo -e "\n\nUnit Conversion Handling......"
         value_cli=$(echo "$value_cli" | tr -d "><KB")
         value_gnmi=$(echo "$value_gnmi" | tr -d " ><")
@@ -105,10 +106,10 @@ if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
         key="Values" 
     fi
         
-        if [[ "$value_cli" == "$value_gnmi" ]];then
-            echo -e "\n\n Successfully Matched after Conversion" 
-            exit 0
-        fi
+    if [[ "$value_cli" == "$value_gnmi" ]];then
+        echo -e "\n\n Successfully Matched after Conversion" 
+        exit 0
+    fi
     
 
     if [[ $value_cli == *"G"* ]];then
@@ -117,46 +118,58 @@ if [[ "$first_line" =~ [0-9]+c[0-9]+ ]]; then
         value_gnmi=$(echo "$value_gnmi" | tr -d " ><")
         value_cli=$(( value_cli * 1000000000 ))
         value_gnmi=$(( value_gnmi * 1000000 ))
-        value_cli=$value_cli" bps"
-        value_gnmi=$value_gnmi" bps"
+        value_cli=$value_cli"bps"
+        value_gnmi=$value_gnmi"bps"
         key="Values" 
     fi
+
     if [[ $value_cli == *"M"* ]];then
         echo -e "\n\nUnit Conversion Handling......"
         value_cli=$(echo "$value_cli" | tr -d " ><M")
         value_gnmi=$(echo "$value_gnmi" | tr -d " ><")
         value_cli=$(( value_cli * 1000000 ))
         value_gnmi=$(( value_gnmi * 1000000 ))
-        value_cli=$value_cli" bps"
-        value_gnmi=$value_gnmi" bps"
+        value_cli=$value_cli"bps"
+        value_gnmi=$value_gnmi"bps"
         key="Values" 
     fi
+
     if [[ $value_cli == *"K"* ]];then
         echo -e "\n\nUnit Conversion Handling......"
         value_cli=$(echo "$value_cli" | tr -d " ><K")
         value_gnmi=$(echo "$value_gnmi" | tr -d " ><")
         value_cli=$(( value_cli * 1000 ))
         value_gnmi=$(( value_gnmi * 1000000 ))
-        value_cli=$value_cli" bps"
-        value_gnmi=$value_gnmi" bps"
+        value_cli=$value_cli"bps"
+        value_gnmi=$value_gnmi"bps"
         key="Values" 
     fi
 
         
-        if [[ "$value_cli" == "$value_gnmi" ]];then
-            echo -e "\n\n Successfully Matched after Conversion" 
-            exit 0
-        fi
-    
-    
-    #if integer and CLIPathAll contains speed than integer * M
-    if [[ $value_cli != *"bytes"* ]];then
-        if [[ $value_cli == *"."* || $value_cli == *"%"* || $value_gnmi == *"."* || $value_gnmi == *"%"* ]]; then 
-            value_cli=$(echo "$value_cli" | cut -d'.' -f1|tr -d " <>")
-            value_gnmi=$(echo "$value_gnmi" | cut -d'.' -f1| tr -d " <>")
-            echo -e "Decimal Handling.........."
-        fi
+    if [[ "$value_cli" == "$value_gnmi" ]];then
+        echo -e "\n\n Successfully Matched after Conversion" 
+        exit 0
     fi
+    
+    period_countcli=$(echo "$value_cli" | grep -o "\." | wc -l) 
+    period_countgnmi=$(echo "$value_gnmi" | grep -o "\." | wc -l) 
+    if [[ $period_countcli -eq 1 || $period_countgnmi -eq 1 || $value_gnmi == *"%"* || $value_cli == *"%"* ]]; then 
+        decimal_cli=$(echo "$value_cli" | grep -o "\.[0-9]" | cut -d"." -f2|tr -d "%")
+        decimal_gnmi=$(echo "$value_gnmi" | grep -o "\.[0-9]" | cut -d"." -f2|tr -d "%")
+        #if [[ $value_cli != *"bytes"* ]]; then
+        value_cli=$(echo "$value_cli" | cut -d'.' -f1|tr -d " <>")
+        value_gnmi=$(echo "$value_gnmi" | cut -d'.' -f1| tr -d " <>")
+
+        if [[ $decimal_cli -gt 4 ]]; then
+            value_cli=$(( value_cli + 1 ))
+        fi 
+        if [[ $decimal_gnmi -gt 4 ]]; then
+            value_gnmi=$(( value_gnmi + 1 ))
+        fi 
+            echo -e "Percision Handling.........."
+        #fi    
+    fi
+
     if [[ "$value_cli" == "$value_gnmi" ]];then
         echo -e "\n\nSuccessfully matched after adjusting percision"
         exit 0

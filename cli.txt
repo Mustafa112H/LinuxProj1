@@ -1,4 +1,7 @@
-peer_as:65001
-connection_state:Established
-received_prefix_count:120
-sent_prefix_count:95
+area_id:0.0.0.0
+active_interfaces:4
+lsdb_entries:200
+neighbor_id:1.1.1.1
+state:full
+neighbor_id:2.2.2.2
+state:full
